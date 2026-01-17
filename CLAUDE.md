@@ -2,7 +2,70 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## プロジェクト概要
+## プロジェクト: 株価ダッシュボード
+
+S&P500とFANG+インデックスの株価情報を円建て/ドル建てで表示するダッシュボード。
+
+### 技術スタック
+| 領域 | 技術 |
+|------|------|
+| バックエンド | FastAPI (Python) + yfinance |
+| フロントエンド | React + TypeScript + Recharts |
+| デプロイ | Railway |
+
+### 開発状況
+- タスク詳細・進捗: `doc/開発方針.md`
+- システム仕様: `doc/仕様書.md`
+
+## 開発コマンド
+
+### バックエンド
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+
+### フロントエンド
+```bash
+cd frontend
+npm install
+npm run dev          # 開発サーバー起動 (port 3000)
+npm run build        # プロダクションビルド
+npm run lint         # リンター実行
+```
+
+### API動作確認
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/api/indices
+```
+
+## アーキテクチャ
+
+```
+[yfinance] → [FastAPI Backend :8000] → [React Frontend :3000]
+                    ↓
+              /api/indices (JSON)
+                - S&P 500 価格・14日分チャートデータ
+                - FANG+ 価格・14日分チャートデータ
+                - ドル円為替レート (USDJPY=X)
+```
+
+### データフロー
+1. バックエンドがyfinanceから株価データを取得（14日分の日次終値）
+2. `/api/indices` エンドポイントでJSON返却
+3. フロントエンドが `useIndicesData()` フックでデータ取得
+4. 通貨切り替え（円/ドル）はフロントエンドで計算
+
+### 主要コンポーネント（予定）
+- `IndexCard` - インデックス情報カード（価格・前日比・騰落率）
+- `PriceChart` - 14日間の線グラフ（Recharts）
+- `CurrencyToggle` - 円/USD切り替えスイッチ
+
+---
+
+## ワークフロー概要
 
 Claude Code Software Development Driver (CCSDD) テンプレート。スラッシュコマンドで役割を切り替えるエージェントシステムとGit Worktreeによる並行開発ワークフローを提供する。
 
