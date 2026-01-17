@@ -1,0 +1,11 @@
+[project]
+name = "stock-dashboard-backend"
+version = "0.1.0"
+description = "Stock Dashboard API - S&P500/FANG+ index tracker"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.128.0",
+    "uvicorn[standard]>=0.40.0",
+    "yfinance>=1.0",
+]
