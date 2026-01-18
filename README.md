@@ -1,8 +1,98 @@
-# プロジェクト名
-cc-sddとrailwayを用いたアプリ開発・デプロイの練習
+# Stock Dashboard
+
+S&P500とFANG+インデックスの株価情報を円建て/ドル建てで表示するダッシュボード。
 
 ## 概要
-金融商品の値動きデータを外部から取得して表示する
+
+- **データソース**: Yahoo Finance (yfinance)
+- **監視対象**: S&P500 (^GSPC), FANG+ (^NYFANG), USD/JPY為替レート
+- **機能**: 現在価格、前日比、14日間チャート、通貨切替（円/USD）
+
+## クイックスタート
+
+### ローカル開発
+
+```bash
+# バックエンド起動
+cd backend
+uv run uvicorn main:app --reload --port 8000
+
+# フロントエンド起動（別ターミナル）
+cd frontend
+npm install
+npm run dev
+```
+
+- フロントエンド: http://localhost:5173
+- バックエンドAPI: http://localhost:8000
+- ヘルスチェック: http://localhost:8000/health
+- インデックスAPI: http://localhost:8000/api/indices
+
+### 本番ビルド
+
+```bash
+cd frontend && npm run build
+cd ../backend && uv run uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+## Railway デプロイ
+
+### デプロイ方式
+
+FastAPIが`frontend/dist`を静的配信する方式を採用。
+
+- `/api/*` → FastAPI APIエンドポイント
+- `/health` → ヘルスチェック
+- `/` および未知パス → `index.html` (SPA)
+
+### Railway設定
+
+1. Railwayプロジェクト作成
+2. GitHubリポジトリを接続
+3. 自動デプロイが有効化（nixpacks.tomlを自動検出）
+
+**ビルド設定** (`nixpacks.toml`):
+- setup: Node.js 20, Python 3.12
+- build: `cd frontend && npm ci && npm run build`
+- start: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
+
+### 環境変数（任意）
+
+| 変数 | 説明 | デフォルト |
+|------|------|-----------|
+| PORT | サーバーポート | 8000 |
+
+## API仕様
+
+### GET /health
+
+```json
+{"status": "healthy", "timestamp": "2026-01-18T10:00:00"}
+```
+
+### GET /api/indices
+
+```json
+{
+  "indices": [
+    {
+      "ticker": "^GSPC",
+      "name": "S&P 500",
+      "current_price": 5892.45,
+      "previous_close": 5850.23,
+      "change": 42.22,
+      "change_percent": 0.72,
+      "chart_data": [{"date": "2026-01-04", "close": 5800.12}, ...],
+      "last_update": "2026-01-18T10:00:00"
+    }
+  ],
+  "exchange_rate": {"rate": 157.32, "last_update": "..."},
+  "timestamp": "2026-01-18T10:00:00",
+  "isFallback": false
+}
+```
+
+**注意**: yfinanceでデータ取得に失敗した場合、`isFallback: true`でダミーデータを返却。
 
 ---
 

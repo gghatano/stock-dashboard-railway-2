@@ -22,8 +22,7 @@ S&P500とFANG+インデックスの株価情報を円建て/ドル建てで表�
 ### バックエンド
 ```bash
 cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uv run uvicorn main:app --reload --port 8000
 ```
 
 ### フロントエンド
