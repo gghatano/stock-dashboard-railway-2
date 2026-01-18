@@ -10,17 +10,6 @@ body {
   line-height: 1.5;
   color: #1a1a1a;
   background-color: #f5f7fa;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  color: #6366f1;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 button {
