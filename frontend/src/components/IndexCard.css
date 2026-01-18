@@ -1,0 +1,78 @@
+.index-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.index-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.index-name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.ticker {
+  font-size: 0.875rem;
+  color: #666;
+  background: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.price-section {
+  margin-bottom: 16px;
+}
+
+.current-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+}
+
+.change.up {
+  color: #16a34a;
+}
+
+.change.down {
+  color: #dc2626;
+}
+
+.change-icon {
+  font-size: 1.125rem;
+}
+
+.chart-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* 上昇/下落のボーダーカラー */
+.index-card.positive {
+  border-left: 4px solid #16a34a;
+}
+
+.index-card.negative {
+  border-left: 4px solid #dc2626;
+}
