@@ -13,7 +13,7 @@ cd ..
 # Install Python dependencies
 echo "Installing Python dependencies..."
 cd backend
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 cd ..
 
 echo "=== Build complete ==="
