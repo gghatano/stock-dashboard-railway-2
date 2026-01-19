@@ -1,20 +1,9 @@
-# Railway deployment configuration
-# Build: Node.js for frontend, Python for backend
-# Start: uvicorn serves both API and static files
+# Railway deployment configuration (Nixpacks)
+# Environment setup only - build/start commands are in railway.json
 
 [phases.setup]
 nixPkgs = ["nodejs_20", "python312"]
+aptPkgs = []
 
-[phases.install]
-cmds = [
-    "cd frontend && npm ci",
-    "cd backend && pip install -r requirements.txt || pip install fastapi uvicorn yfinance"
-]
-
-[phases.build]
-cmds = [
-    "cd frontend && npm run build"
-]
-
-[start]
-cmd = "cd backend && python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"
+[phases.setup.env]
+NIXPACKS_PYTHON_VERSION = "3.12"
