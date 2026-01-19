@@ -2,8 +2,9 @@
 # Environment setup only - build/start commands are in railway.json
 
 [phases.setup]
-nixPkgs = ["nodejs_20", "python312"]
+nixPkgs = ["nodejs_22", "python312"]
 aptPkgs = []
 
 [phases.setup.env]
 NIXPACKS_PYTHON_VERSION = "3.12"
+NIXPACKS_NODE_VERSION = "22"
